@@ -1,0 +1,20 @@
+
+name: hello
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hello_world:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Echo the message
+        run: | 
+          echo "Hello world!"
+      - name: La fecha es
+        run: date
+      - run: ls -l
+
+    

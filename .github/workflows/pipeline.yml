@@ -8,6 +8,7 @@ on:
 jobs: 
 
   build: 
+      
     permissions:
       pages: write      # to deploy to Pages
       id-token: write   # to verify the deployment originates from an appropriate source
@@ -27,6 +28,11 @@ jobs:
           node-version: '14' 
       - name: Install dependencies 
         run: npm install
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: APIDOCUMENTATION
+          path: ./api-documentation.yaml
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2 

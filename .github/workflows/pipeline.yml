@@ -1,10 +1,10 @@
 name: Despliegue Pipeline
- 
+
 on: 
   push: 
     branches: 
       - main 
- 
+
 jobs: 
 
   build: 
@@ -28,11 +28,10 @@ jobs:
           node-version: '14' 
       - name: Install dependencies 
         run: npm install
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload Pages artifact
+        uses: ./
         with:
-          name: API DOCUMENTATION
-          path: ./api-documentation.yaml
+          path: documentation.html  
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2 

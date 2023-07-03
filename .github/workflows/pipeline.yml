@@ -29,9 +29,7 @@ jobs:
       - name: Install dependencies 
         run: npm install
       - name: Upload Pages artifact
-        uses: ./
-        with:
-          path: api-documentation.yaml  
+        uses: actions/upload-pages-artifact@v2
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2 

@@ -30,6 +30,8 @@ jobs:
         run: npm install
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact
+        with:
+          path: ./
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2 

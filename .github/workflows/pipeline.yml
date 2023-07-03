@@ -9,15 +9,6 @@ jobs:
 
   build: 
       
-    permissions:
-      pages: write      # to deploy to Pages
-      id-token: write   # to verify the deployment originates from an appropriate source
-
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v3 
@@ -28,11 +19,14 @@ jobs:
           node-version: '14' 
       - name: Install dependencies 
         run: npm install
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact
-        with:
-          path: ./
+      - name: Page
+        run: mkdir ./documentation.html
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2 
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
     

@@ -1,4 +1,4 @@
-name: Despliegue Pipeline
+name: Despliegue Pipeline Documentation
 
 on: 
   push: 

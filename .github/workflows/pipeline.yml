@@ -1,30 +1,38 @@
-name: Despliegue Pipeline Documentation
+name: My API - Documentation
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/pipeline.yml'
+      - api-documentation.yaml
 
-on: 
-  push: 
-    branches: 
-      - main 
-
-jobs: 
-
-  build: 
-      
+jobs:
+  build:
+    name: Build My API documentation
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v2 
-        with: 
-          fetch-depth: 0 
-      - uses: actions/setup-node@v3 
-        with: 
-          node-version: '14' 
-      - name: Install dependencies 
-        run: npm install
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: crazy-max/ghaction-github-pages@v3
-        with:
-          target_branch: main
-          build_dir: ./
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-    
+    steps:
+    - name: Checkout
+      id: git-checkhot
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build index.html
+      id: redoc-build
+      shell: bash
+      continue-on-error: true
+      run: |
+        echo "Building index.html started" && \
+        npx redoc-cli build api-documentation.yaml --title "Rat API" && \
+        mv redoc-static.html index.html && \
+        sed -i '/<title>/a \ \ <link rel="icon" type="image/x-icon" href="images/favicon.ico">' index.html && \
+        echo "Building index.html finished"
+
+    - name: Deploy to GitHub Pages
+      # https://github.com/peaceiris/actions-gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./
+        force_orphan: true
+        exclude_assets: '.github,LICENSE,README.md'
